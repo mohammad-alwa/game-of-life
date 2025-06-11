@@ -1,5 +1,7 @@
 package dev.alwa.gameoflife.model;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,16 +59,16 @@ public class Grid {
      *
      * @param listGrid input grid represented as a list of boolean lists. All inner lists must have the same length
      */
-    public Grid(List<List<Boolean>> listGrid) {
+    public Grid(@NotEmpty @Size List<List<Integer>> listGrid) {
         this.n = listGrid.size();
         this.m = listGrid.getFirst().size();
 
         grid = new BitSet[n];
         for (int i = 0; i < n; i++) {
-            List<Boolean> row = listGrid.get(i);
+            List<Integer> row = listGrid.get(i);
             grid[i] = new BitSet(m);
             for (int j = 0; j < m; j++) {
-                grid[i].set(j, row.get(j));
+                grid[i].set(j, row.get(j) == 1);
             }
         }
     }

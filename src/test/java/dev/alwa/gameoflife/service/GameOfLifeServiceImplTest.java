@@ -15,9 +15,9 @@ class GameOfLifeServiceImplTest {
     @Test
     void validatesAllThePatternRowsHaveTheSameLength() {
         var pattern = List.of(
-                List.of(true, true, true),
-                List.of(true, true, true),
-                List.of(true, true, true, true)
+                List.of(1, 1, 1),
+                List.of(1, 1, 1),
+                List.of(1, 1, 1, 1)
         );
 
         assertThatThrownBy(() -> service.simulate(pattern, 3))
@@ -121,11 +121,11 @@ class GameOfLifeServiceImplTest {
         assertThat(service.simulate(period1, 4)).isEqualTo(period5);
     }
 
-    List<List<Boolean>> toPattern(int[][] pattern) {
-        var res = new ArrayList<List<Boolean>>();
+    List<List<Integer>> toPattern(int[][] pattern) {
+        var res = new ArrayList<List<Integer>>();
         for (int[] p : pattern) {
-            List<Boolean> row = Arrays.stream(p)
-                    .mapToObj(i -> i > 0)
+            List<Integer> row = Arrays.stream(p)
+                    .boxed()
                     .toList();
             res.add(row);
         }

@@ -1,6 +1,5 @@
 package dev.alwa.gameoflife.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
@@ -28,7 +27,6 @@ public record SimulationRequest(
                 """)
         @NotEmpty
         @Size(min = 3)
-        @JsonFormat(shape = JsonFormat.Shape.NUMBER)
-        List<@Size(min = 3) List<Boolean>> seed
+        List<@Size(min = 3) List<@Min(0) @Max(1) Integer>> seed
 ) {
 }
