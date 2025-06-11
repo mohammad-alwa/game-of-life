@@ -1,5 +1,19 @@
 # Game of Life
 
+## Design Decisions
+
+1. The grid is infinite, but since the computer memory is limited, the left and right edges of the field are considered 
+to be stitched together, and the top and bottom edges also, yielding a toroidal array.
+[[↗]](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Algorithms)
+2. The API works with the grid as a dense matrix, a sparse one is possible to implement. This should be based on a
+discussion with the API consumers rather than an arbitrary decision.
+
+## Possible Improvements
+
+1. The algorithm processes each cell in the grid, we can optimize this by tracking live cells and updating their
+surroundings only.
+2. Generating GIF output in the API response.
+
 ## The Problem
 
 Do an implementation of Conway's Game of Life.
