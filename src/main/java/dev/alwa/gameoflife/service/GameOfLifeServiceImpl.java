@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 public class GameOfLifeServiceImpl implements GameOfLifeService {
@@ -18,6 +19,15 @@ public class GameOfLifeServiceImpl implements GameOfLifeService {
      */
     @Override
     public List<List<Integer>> simulate(@NotEmpty @Size List<List<Integer>> seed, int iterations) {
+        return simulate(seed, iterations, this::toResult);
+    }
+
+    @Override
+    public String simulateAsText(List<List<Integer>> seed, int iterations) {
+        return simulate(seed, iterations, Grid::toString);
+    }
+
+    private <T> T simulate(List<List<Integer>> seed, int iterations, Function<Grid, T> responseSupplier) {
         int n = seed.size();
         int m = seed.getFirst().size();
 
@@ -25,7 +35,7 @@ public class GameOfLifeServiceImpl implements GameOfLifeService {
 
         Grid grid = new Grid(seed).simulate(iterations);
 
-        return toResult(grid, n, m);
+        return responseSupplier.apply(grid);
     }
 
     /**
@@ -43,12 +53,12 @@ public class GameOfLifeServiceImpl implements GameOfLifeService {
     /**
      * Converts the grid object to the appropriate output response
      */
-    private List<List<Integer>> toResult(Grid grid, int n, int m) {
+    private List<List<Integer>> toResult(Grid grid) {
         var result = new ArrayList<List<Integer>>();
-        for (int i = 0; i < n; i++) {
-            var row = new ArrayList<Integer>(m);
+        for (int i = 0; i < grid.n(); i++) {
+            var row = new ArrayList<Integer>(grid.m());
             result.add(row);
-            for (int j = 0; j < m; j++) {
+            for (int j = 0; j < grid.m(); j++) {
                 row.add(grid.get(i, j) ? 1 : 0);
             }
         }

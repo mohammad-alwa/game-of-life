@@ -10,4 +10,11 @@ public interface GameOfLifeService {
      * Performs Game of Life simulation on the given seed for the specified number of iterations
      */
     List<List<Integer>> simulate(@NotEmpty @Size List<List<Integer>> seed, int iterations);
+
+    /**
+     * Performs Game of Life simulation on the given seed for the specified number of iterations
+     *
+     * @return textual representation of the final simulation result
+     */
+    String simulateAsText(@NotEmpty @Size List<List<Integer>> seed, int iterations);
 }

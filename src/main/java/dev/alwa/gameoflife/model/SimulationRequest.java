@@ -16,15 +16,7 @@ public record SimulationRequest(
                 The initial (seed) pattern represented as a dense grid.
                 Each element value indicates whether the cell is alive (1) or dead (0).
                 All rows must have the same length.
-                """, example = """
-                [
-                  [0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0],
-                  [0, 1, 1, 1, 0],
-                  [0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0]
-                ]
-                """)
+                """, example = Constants.JSON_GRID)
         @NotEmpty
         @Size(min = 3)
         List<@Size(min = 3) List<@Min(0) @Max(1) Integer>> seed

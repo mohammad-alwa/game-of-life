@@ -115,6 +115,14 @@ public class Grid {
         return grid[row].get(col);
     }
 
+    public int n() {
+        return n;
+    }
+
+    public int m() {
+        return m;
+    }
+
     private void set(int row, int col, boolean value) {
         grid[row].set(col, value);
     }
