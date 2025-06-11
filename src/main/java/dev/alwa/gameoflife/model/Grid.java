@@ -20,7 +20,7 @@ public class Grid {
     private final int m; // columns count
 
     /**
-     * Constructor to initialize nxm grid with all cells set to false
+     * Constructor to initialize n*m grid with all cells set to false
      *
      * @param n number of rows
      * @param m number of columns
@@ -32,6 +32,23 @@ public class Grid {
         grid = new BitSet[n];
         for (int i = 0; i < n; i++) {
             grid[i] = new BitSet(m);
+        }
+    }
+
+    /**
+     * Constructor to copy a grid
+     *
+     * @param other grid to be copied
+     */
+    public Grid(Grid other) {
+        this.n = other.n;
+        this.m = other.m;
+        grid = new BitSet[n];
+        for (int i = 0; i < n; i++) {
+            grid[i] = new BitSet(m);
+            for (int j = 0; j < m; j++) {
+                grid[i].set(j, other.get(i, j));
+            }
         }
     }
 
@@ -55,17 +72,18 @@ public class Grid {
     }
 
     /**
-     * Perform Game of Life simulation for the given number of iterations
+     * Perform Game of Life simulation for the given number of iterations.
+     * <p>
+     * This is an immutable method and will not update the contents of the grid.
      *
      * @param iterations number of iterations
      * @return final grid after all the iterations elapsed
      */
     public Grid simulate(int iterations) {
         log.debug("Simulating {}", this);
-        Grid currentGrid = this;
+        Grid currentGrid = new Grid(this);
+        Grid nextGrid = new Grid(n, m);
         for (int iteration = 1; iteration <= iterations; iteration++) {
-            Grid nextGrid = new Grid(n, m);
-
             /*
              prevRow and prevCol track the previous row/column relative to the current cell, while making sure the grid
              is infinite such that left-right and top-bottom edges are connected together yielding a toroidal array.
@@ -81,7 +99,10 @@ public class Grid {
                 prevRow++;
             }
 
+            // Swap the grids to optimize memory usage by avoiding creating a new grid every iteration
+            var tmp = currentGrid;
             currentGrid = nextGrid;
+            nextGrid = tmp;
 
             log.debug("Iteration {}\n{}", iteration, nextGrid);
         }
